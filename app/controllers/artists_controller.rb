@@ -8,12 +8,12 @@ class ArtistsController < ApplicationController
   end
 
   def new
-    preference = Preference.first
-    binding.pry
-    p = Preference.create(allow_create_artists: false)
-    get :new
-    @artist = Artist.new
-    redirect_to artists_path
+    if Preference.create(allow_create_artists: false)
+      redirect_to artists_path, alert: "You do not have permission to Create Artists."
+    else
+      @artist = Artist.new
+    end
+  
   end
 
   def create
